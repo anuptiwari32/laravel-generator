@@ -9,6 +9,8 @@ use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
 use Illuminate\Http\Request;
 use $NAMESPACE_APP$\Http\Controllers\AppBaseController;
 use $NAMESPACE_API_RESOURCE$\$MODEL_NAME$Resource;
+use InfyOm\Generator\Criteria\LimitOffsetCriteria;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 $DOC_CONTROLLER$
@@ -25,6 +27,8 @@ class $MODEL_NAME$APIController extends AppBaseController
     $DOC_INDEX$
     public function index(Request $request)
     {
+        $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
+        $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new LimitOffsetCriteria($request));
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
